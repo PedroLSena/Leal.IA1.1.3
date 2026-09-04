@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Leal.ai — Ferramenta de Criação e Gestão de Contas Hierárquicas para Startups, Escritórios e Advogados." />
+    <title>Leal.ai — Gestão de Contas & Hierarquia Jurídica</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="cadastro.css" />
+  </head>
+  <body>
+    <!-- Top Header Navigation -->
+    <header class="app-header">
+      <div class="header-container">
+        <div class="header-left">
+          <a class="brand" href="index.html" title="Voltar à página inicial">
+            <span class="brand-mark">L</span>leal<span>.ai</span>
+          </a>
+          <span class="header-badge"><i></i> Portal de Hierarquia & Contas</span>
+          
+          <nav class="header-nav-tabs" aria-label="Navegação da ferramenta">
+            <button class="tab-btn active" data-tab="wizard">
+              <span>➕</span> Novo Cadastro
+            </button>
+            <button class="tab-btn" data-tab="accounts">
+              <span>👥</span> Organograma & Contas
+            </button>
+            <button class="tab-btn" data-tab="matrix">
+              <span>📋</span> Matriz RBAC
+            </button>
+            <button class="tab-btn" data-tab="simulator">
+              <span>🔍</span> Simulador de Perfil
+            </button>
+          </nav>
+        </div>
+
+        <div class="header-actions">
+          <button class="btn-secondary" onclick="exportAccountsJSON()" title="Exportar dados cadastrais">
+            <span>📥</span> Exportar JSON
+          </button>
+          <button class="btn-secondary" onclick="resetToDefaultAccounts()" title="Restaurar dados de demonstração">
+            <span>🔄</span> Resetar Demo
+          </button>
+          <a class="btn-primary" href="index.html">
+            <span>←</span> Voltar ao Site
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="main-wrapper">
+      <!-- Section Header with Quick Stats -->
+      <div class="page-intro">
+        <div>
+          <h1>Gestão de Contas & Hierarquia Jurídica</h1>
+          <p>
+            Estruture o ecossistema da sua operação jurídica: configure permissões granulares, subordinação de cargos e isolamento de dados conforme a LGPD e o Provimento da OAB.
+          </p>
+        </div>
+        <div class="quick-stats">
+          <div class="stat-pill">
+            <span>Total de Usuários</span>
+            <strong id="stat-total-accounts">12</strong>
+          </div>
+          <div class="stat-pill">
+            <span>Organizações Ativas</span>
+            <strong id="stat-total-orgs">4</strong>
+          </div>
+          <div class="stat-pill">
+            <span>Advogados & OAB</span>
+            <strong id="stat-total-lawyers">6</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================================================================= -->
+      <!-- TAB 1: NOVO CADASTRO HIERÁRQUICO (WIZARD MULTI-PASSOS) -->
+      <!-- ========================================================================= -->
+      <section id="tab-wizard" class="tab-content active">
+        <div class="wizard-layout">
+          <!-- Wizard Main Form Column -->
+          <div class="wizard-card">
+            <!-- Steps Progress Bar -->
+            <div class="steps-nav">
+              <button class="step-indicator active" data-step="1">
+                <span class="step-num">1</span>
+                <span>Tipo de Organização</span>
+              </button>
+              <button class="step-indicator" data-step="2">
+                <span class="step-num">2</span>
+                <span>Estrutura & Setor</span>
+              </button>
+              <button class="step-indicator" data-step="3">
+                <span class="step-num">3</span>
+                <span>Dados do Titular</span>
+              </button>
+              <button class="step-indicator" data-step="4">
+                <span class="step-num">4</span>
+                <span>Hierarquia & Permissões</span>
+              </button>
+            </div>
+
+            <!-- Wizard Form -->
+            <form id="account-creation-form" novalidate>
+              <!-- PASSO 1: Seleção de Categoria Organizacional -->
+              <div class="wizard-step active" data-step="1">
+                <div class="step-header">
+                  <h2>Passo 1: Selecione o tipo de conta / organização</h2>
+                  <p>Escolha o segmento jurídico para carregar as hierarquias, regras trabalhistas e modelos de documentos pertinentes.</p>
+                </div>
+
+                <div class="category-grid" id="category-selection-grid">
+                  <!-- Injetado dinamicamente via JS -->
+                </div>
+              </div>
+
+              <!-- PASSO 2: Estrutura da Entidade, Setor e Cargo -->
+              <div class="wizard-step" data-step="2">
+                <div class="step-header">
+                  <h2>Passo 2: Definição da Entidade, Setor e Cargo</h2>
+                  <p>Informe a razão social, identificação civil/profissional e posicione o usuário na estrutura corporativa.</p>
+                </div>
+
+                <div class="form-grid">
+                  <div class="form-group full-width">
+                    <label for="wizard-org-name">Nome da Empresa / Escritório / Razão Social *</label>
+                    <input type="text" id="wizard-org-name" class="form-control" placeholder="Ex: TechFlow Software Ltda ou Silva & Associados" required />
+                    <span class="field-help">Nome oficial da entidade contratante ou banca jurídica.</span>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="wizard-cnpj-cpf">CNPJ ou CPF *</label>
+                    <input type="text" id="wizard-cnpj-cpf" class="form-control" placeholder="00.000.000/0000-00 ou CPF" required />
+                  </div>
+
+                  <div class="form-group" id="group-oab">
+                    <label for="wizard-oab">Inscrição na OAB <span class="optional">(Quando aplicável)</span></label>
+                    <input type="text" id="wizard-oab" class="form-control" placeholder="Ex: OAB/SP 412.981 ou OAB/BA 29.845" />
+                    <span class="field-help" id="oab-help-text">Obrigatório para advogados e estagiários de direito.</span>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="wizard-sector">Setor / Departamento *</label>
+                    <select id="wizard-sector" class="form-control">
+                      <!-- Preenchido dinamicamente -->
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="wizard-role">Cargo & Função no Sistema *</label>
+                    <select id="wizard-role" class="form-control">
+                      <!-- Preenchido dinamicamente -->
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="wizard-reports-to">Subordinação Hierárquica (Reporta a quem?) *</label>
+                    <select id="wizard-reports-to" class="form-control">
+                      <!-- Preenchido dinamicamente -->
+                    </select>
+                    <span class="field-help">Define o fluxo de aprovações de contratos e relatórios de passivos.</span>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="wizard-plan">Plano Pretendido Leal.ai *</label>
+                    <select id="wizard-plan" class="form-control">
+                      <option value="Starter">Starter — R$ 149/mês (Contratos IA + Check-up básico)</option>
+                      <option value="Pro" selected>Pro — R$ 299/mês (Monitor de jornada + Alertas preditivos)</option>
+                      <option value="Enterprise">Enterprise — Sob Demanda (APIs, ERPs & Multi-unidades)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- PASSO 3: Dados do Titular & Acesso -->
+              <div class="wizard-step" data-step="3">
+                <div class="step-header">
+                  <h2>Passo 3: Dados do Titular e Credenciais</h2>
+                  <p>Cadastre o usuário responsável que utilizará as credenciais de acesso à plataforma.</p>
+                </div>
+
+                <div class="form-grid">
+                  <div class="form-group full-width">
+                    <label for="wizard-full-name">Nome Completo do Titular *</label>
+                    <input type="text" id="wizard-full-name" class="form-control" placeholder="Ex: Dra. Ana Paula Silveira" required />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="wizard-email">E-mail Corporativo *</label>
+                    <input type="email" id="wizard-email" class="form-control" placeholder="usuario@organizacao.com.br" required />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="wizard-phone">Telefone / WhatsApp Comercial <span class="optional">(Opcional)</span></label>
+                    <input type="tel" id="wizard-phone" class="form-control" placeholder="(11) 98765-4321" />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="wizard-password">Senha Provisória *</label>
+                    <input type="password" id="wizard-password" class="form-control" placeholder="Mínimo de 6 caracteres" value="Leal@2026" required />
+                    <span class="field-help">O usuário será solicitado a alterar no primeiro login.</span>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="wizard-2fa">Autenticação em 2 Fatores (2FA)</label>
+                    <select id="wizard-2fa" class="form-control">
+                      <option value="required">Obrigatório (Recomendado para dados jurídicos confidenciais)</option>
+                      <option value="optional">Opcional para Níveis Operacionais</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- PASSO 4: Nível Hierárquico (Tier) e Matriz de Permissões Granulares -->
+              <div class="wizard-step" data-step="4">
+                <div class="step-header">
+                  <h2>Passo 4: Nível de Hierarquia e Permissões Granulares (RBAC)</h2>
+                  <p>Defina o escopo de atuação e marque os recursos autorizados na Leal.ai para este usuário.</p>
+                </div>
+
+                <!-- Tiers Cards -->
+                <div class="tier-selection-grid" id="tier-selection-grid">
+                  <!-- Gerado via JS -->
+                </div>
+
+                <div style="margin-top: 24px;">
+                  <h3 style="font-family:'Plus Jakarta Sans'; font-size:16px; color:var(--ink);">Ajuste Fino de Permissões Granulares:</h3>
+                  <p style="color:var(--muted); font-size:13px; margin-top:2px;">Personalize o acesso a módulos de IA, monitor de jornada e auditoria de passivos.</p>
+                  
+                  <div class="perm-matrix-grid" id="perm-matrix-grid">
+                    <!-- Gerado via JS -->
+                  </div>
+                </div>
+
+                <!-- LGPD & Compliance Check -->
+                <div style="margin-top: 28px; padding: 16px; background: var(--cream-card); border-radius: 8px; border: 1px solid var(--line-light);">
+                  <label style="display: flex; gap: 12px; align-items: flex-start; cursor: pointer;">
+                    <input type="checkbox" id="wizard-lgpd-consent" checked style="margin-top: 4px; accent-color: var(--ink);" />
+                    <div style="font-size: 12.5px; color: var(--ink);">
+                      <strong>Termo de Governança, Sigilo e LGPD:</strong>
+                      Declaro ciência de que o acesso às ferramentas preditivas da Leal.ai respeita o dever de confidencialidade da Lei Geral de Proteção de Dados (Lei nº 13.709/2018) e o sigilo profissional da advocacia.
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Wizard Footer Controls -->
+              <div class="wizard-actions">
+                <button type="button" class="btn-secondary" id="btn-prev-step" style="visibility: hidden;">
+                  <span>←</span> Passo Anterior
+                </button>
+                <button type="button" class="btn-primary" id="btn-next-step">
+                  Próximo Passo <span>→</span>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Wizard Sidebar: Live ID Card & Rights Preview -->
+          <aside class="preview-card" aria-label="Cartão de visualização do perfil em tempo real">
+            <h3>
+              Pré-visualização do Perfil
+              <span class="badge-live">TEMPO REAL</span>
+            </h3>
+
+            <!-- Crachá Dinâmico -->
+            <div class="live-id-card">
+              <div class="id-header">
+                <div class="id-avatar" id="preview-avatar">LA</div>
+                <div class="id-names">
+                  <strong id="preview-name">Nome do Usuário</strong>
+                  <span id="preview-role">Cargo a Definir</span>
+                </div>
+              </div>
+
+              <div class="id-meta-row">
+                <span>Organização</span>
+                <span id="preview-org">Organização Jurídica</span>
+              </div>
+
+              <div class="id-meta-row">
+                <span>Setor / Depto</span>
+                <span id="preview-sector">Setor Jurídico / RH</span>
+              </div>
+
+              <div class="id-meta-row">
+                <span>Nível Hierárquico</span>
+                <span id="preview-tier-pill" class="hierarchy-level-pill badge-tier-1">NÍVEL 1</span>
+              </div>
+
+              <div class="id-meta-row">
+                <span>Plano Contratado</span>
+                <span id="preview-plan">Leal.ai Pro</span>
+              </div>
+            </div>
+
+            <!-- Permissões Sintetizadas -->
+            <div>
+              <h4 style="font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 8px;">
+                Módulos Ativos na Leal.ai:
+              </h4>
+              <ul class="preview-features-list" id="preview-features-list">
+                <!-- Preenchido dinamicamente -->
+              </ul>
+            </div>
+
+            <div style="font-size: 11.5px; color: var(--muted); border-top: 1px dashed var(--line); padding-top: 12px; line-height: 1.4;">
+              💡 Os dados de autenticação e tokens de API são gerados com criptografia de ponta e isolamento seguro de instâncias (multi-tenant).
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- TAB 2: ORGANOGRAMA & GESTÃO DE CONTAS -->
+      <!-- ========================================================================= -->
+      <section id="tab-accounts" class="tab-content">
+        <!-- Toolbar de Filtros e Alternância de Visualização -->
+        <div class="accounts-toolbar">
+          <div class="search-filter-group">
+            <div class="search-input-wrapper">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="filter-search" placeholder="Buscar por nome, e-mail, cargo, empresa ou setor..." />
+            </div>
+
+            <select id="filter-category" class="filter-select">
+              <option value="all">Todas as Organizações</option>
+              <option value="empresa">Empresas / Startups</option>
+              <option value="escritorio">Escritórios de Advocacia</option>
+              <option value="advogado">Advogados Autônomos</option>
+              <option value="contabilidade">Contabilidade Parceira</option>
+              <option value="colaborador">Colaboradores & PJ</option>
+            </select>
+
+            <select id="filter-tier" class="filter-select">
+              <option value="all">Todos os Níveis (Tiers)</option>
+              <option value="tier-1">Nível 1 — Master / Titular</option>
+              <option value="tier-2">Nível 2 — Gestão & Coordenação</option>
+              <option value="tier-3">Nível 3 — Operacional</option>
+              <option value="tier-4">Nível 4 — Estágio / Paralegal</option>
+              <option value="tier-5">Nível 5 — Colaborador / Consulta</option>
+            </select>
+          </div>
+
+          <div class="view-toggle-group">
+            <button class="view-toggle-btn active" data-view="table">
+              <span>☰</span> Lista / Tabela
+            </button>
+            <button class="view-toggle-btn" data-view="tree">
+              <span>🌳</span> Organograma Visual
+            </button>
+          </div>
+        </div>
+
+        <!-- Visualização 1: Tabela de Usuários e Permissões -->
+        <div id="accounts-table-container" class="accounts-table-card">
+          <div class="table-responsive">
+            <table class="accounts-table">
+              <thead>
+                <tr>
+                  <th>Usuário Titular</th>
+                  <th>Entidade / Categoria</th>
+                  <th>Cargo & Setor</th>
+                  <th>Nível Hierárquico</th>
+                  <th>Reporta A</th>
+                  <th>Status</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="accounts-table-body">
+                <!-- Injetado dinamicamente -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Visualização 2: Árvore Hierárquica / Organograma -->
+        <div id="accounts-tree-container" class="org-tree-wrapper" style="display: none;">
+          <div class="org-tree-header">
+            <div>
+              <h3>Estrutura Hierárquica e Organograma Corporativo</h3>
+              <p style="font-size: 13px; color: var(--muted);">Visualize as relações de subordinação direta entre sócios, diretores, gerentes de setor e equipes.</p>
+            </div>
+            <button class="btn-secondary" onclick="switchTab('wizard')">
+              <span>➕</span> Convidar Novo Membro
+            </button>
+          </div>
+
+          <div id="org-tree-content">
+            <!-- Renderizado dinamicamente via JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- TAB 3: MATRIZ DE PERMISSÕES RBAC -->
+      <!-- ========================================================================= -->
+      <section id="tab-matrix" class="tab-content">
+        <div class="matrix-card">
+          <div class="matrix-intro">
+            <h2>Matriz Geral de Permissões (RBAC - Role-Based Access Control)</h2>
+            <p>
+              Compare os privilégios nativos concedidos a cada nível hierárquico na plataforma Leal.ai para assegurar conformidade e blindagem operacional.
+            </p>
+          </div>
+
+          <div class="matrix-table-wrapper" id="matrix-table-container">
+            <!-- Tabela RBAC renderizada dinamicamente -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- TAB 4: SIMULADOR DE PERFIL DE USUÁRIO -->
+      <!-- ========================================================================= -->
+      <section id="tab-simulator" class="tab-content">
+        <div class="simulator-layout">
+          <!-- Coluna 1: Lista de Perfis para Simulação -->
+          <div class="sim-picker-card">
+            <h3 style="font-family:'Plus Jakarta Sans'; font-size:16px; margin-bottom: 6px;">Selecione um Perfil:</h3>
+            <p style="font-size: 12.5px; color: var(--muted); margin-bottom: 16px;">
+              Clique em qualquer usuário para verificar sua interface e restrições de segurança na Leal.ai.
+            </p>
+            <div id="sim-users-list">
+              <!-- Lista de usuários para simular -->
+            </div>
+          </div>
+
+          <!-- Coluna 2: Tela Simulada com as Permissões Reais -->
+          <div class="sim-screen-card" id="sim-screen-container">
+            <!-- Tela de simulação renderizada pelo JS -->
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Modal de Detalhes da Conta -->
+    <div class="modal-overlay" id="account-details-modal">
+      <div class="modal-box">
+        <div class="modal-header">
+          <h3>Ficha Cadastral e Nível Hierárquico</h3>
+          <button class="btn-close" onclick="closeAccountModal()">&times;</button>
+        </div>
+        <div id="modal-account-content">
+          <!-- Conteúdo dinâmico da conta -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="cadastro.js"></script>
+    <script src="animations.js"></script>
+</body>
+</html>

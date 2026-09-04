@@ -1,0 +1,203 @@
+/* ==========================================================
+   Leal.ai — Camada de animações (v1.1)
+   Movimento sutil, "AI-grade": reveal on scroll, shimmer,
+   gradient sweep, typing, pulse de status, count-up.
+   ========================================================== */
+
+@keyframes leal-fade-up {
+  from { opacity: 0; transform: translate3d(0, 18px, 0); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes leal-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes leal-scale-in {
+  from { opacity: 0; transform: scale(.965); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes leal-shimmer {
+  0%   { background-position: -160% 0; }
+  100% { background-position: 260% 0; }
+}
+@keyframes leal-pulse-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(16, 160, 110, .45); }
+  70%  { box-shadow: 0 0 0 10px rgba(16, 160, 110, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(16, 160, 110, 0); }
+}
+@keyframes leal-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+@keyframes leal-caret {
+  0%, 49%  { opacity: 1; }
+  50%,100% { opacity: 0; }
+}
+@keyframes leal-bar-grow {
+  from { transform: scaleY(.12); }
+  to   { transform: scaleY(1); }
+}
+@keyframes leal-scan {
+  0%   { transform: translateY(-100%); opacity: 0; }
+  25%  { opacity: .55; }
+  100% { transform: translateY(320%); opacity: 0; }
+}
+@keyframes leal-dots {
+  0%, 20%  { opacity: .2; }
+  50%      { opacity: 1; }
+  80%,100% { opacity: .2; }
+}
+
+/* ---------- Reveal on scroll ---------- */
+[data-anim] {
+  opacity: 0;
+  will-change: opacity, transform;
+}
+[data-anim="up"]    { transform: translate3d(0, 20px, 0); }
+[data-anim="scale"] { transform: scale(.97); }
+[data-anim].is-visible {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity .62s cubic-bezier(.22, .8, .3, 1),
+    transform .62s cubic-bezier(.22, .8, .3, 1);
+}
+
+/* ---------- Entradas imediatas (above the fold) ---------- */
+.hero > *,
+.hero-copy > * {
+  animation: leal-fade-up .7s cubic-bezier(.22,.8,.3,1) both;
+}
+.hero-copy > *:nth-child(1) { animation-delay: .05s; }
+.hero-copy > *:nth-child(2) { animation-delay: .12s; }
+.hero-copy > *:nth-child(3) { animation-delay: .19s; }
+.hero-copy > *:nth-child(4) { animation-delay: .26s; }
+.hero-copy > *:nth-child(5) { animation-delay: .33s; }
+
+.product-scene .dashboard { animation: leal-scale-in .8s cubic-bezier(.22,.8,.3,1) .18s both; }
+.product-scene .risk-card { animation: leal-fade-up .7s cubic-bezier(.22,.8,.3,1) .3s both; }
+.product-scene .callout   { animation: leal-fade-up .7s cubic-bezier(.22,.8,.3,1) both; }
+.product-scene .left-callout   { animation-delay: .42s; }
+.product-scene .right-callout  { animation-delay: .5s; }
+.product-scene .bottom-callout { animation-delay: .58s; }
+
+.app-header,
+.nav { animation: leal-fade-in .5s ease-out both; }
+
+/* ---------- Painel do produto: vida "em tempo real" ---------- */
+.product-scene .dashboard { position: relative; overflow: hidden; }
+.product-scene .dashboard::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 34%;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(16,160,110,0) 0%, rgba(16,160,110,.10) 55%, rgba(16,160,110,0) 100%);
+  animation: leal-scan 6.5s ease-in-out 1.4s infinite;
+}
+.product-scene .dashboard .bar,
+.product-scene .dashboard .chart span,
+.product-scene .panel .bar {
+  transform-origin: bottom center;
+  animation: leal-bar-grow .9s cubic-bezier(.22,.8,.3,1) both;
+}
+.product-scene .risk-card { animation-fill-mode: both; }
+
+/* Indicadores de status pulsando (IA processando) */
+.eyebrow i,
+.header-badge i,
+.badge i,
+.dot-live {
+  animation: leal-pulse-ring 2.4s ease-out infinite;
+  border-radius: 999px;
+}
+
+/* ---------- Shimmer / gradient sweep ---------- */
+.leal-shimmer {
+  background-image: linear-gradient(
+    100deg,
+    transparent 20%,
+    rgba(255, 255, 255, .55) 42%,
+    transparent 64%
+  );
+  background-size: 220% 100%;
+  background-repeat: no-repeat;
+  animation: leal-shimmer 2.8s ease-in-out infinite;
+}
+
+/* ---------- Hover states profissionais ---------- */
+.button,
+.tab-btn,
+.card,
+.callout,
+.benefit,
+.wizard-card,
+.preview-card,
+.stat-card {
+  transition:
+    transform .28s cubic-bezier(.22,.8,.3,1),
+    box-shadow .28s cubic-bezier(.22,.8,.3,1),
+    border-color .28s ease,
+    background-color .28s ease,
+    color .2s ease;
+}
+.button:hover     { transform: translateY(-2px); }
+.button:active    { transform: translateY(0) scale(.985); }
+.callout:hover,
+.benefit:hover,
+.card:hover,
+.stat-card:hover  { transform: translateY(-3px); }
+.tab-btn:hover    { transform: translateY(-1px); }
+
+a, .brand, .nav-links a { transition: color .2s ease, opacity .2s ease; }
+.brand-mark { transition: transform .35s cubic-bezier(.22,.8,.3,1); }
+.brand:hover .brand-mark { transform: rotate(-6deg) scale(1.06); }
+
+/* ---------- Typing / caret (assistente de IA) ---------- */
+.leal-typing::after {
+  content: "▍";
+  margin-left: 2px;
+  animation: leal-caret 1s steps(1) infinite;
+}
+.leal-thinking span {
+  animation: leal-dots 1.2s ease-in-out infinite;
+}
+.leal-thinking span:nth-child(2) { animation-delay: .18s; }
+.leal-thinking span:nth-child(3) { animation-delay: .36s; }
+
+/* ---------- Troca de abas do portal ---------- */
+.tab-content.active,
+[role="tabpanel"]:not([hidden]) {
+  animation: leal-fade-up .45s cubic-bezier(.22,.8,.3,1) both;
+}
+.step-panel.active { animation: leal-fade-up .4s cubic-bezier(.22,.8,.3,1) both; }
+.modal, .modal-card, .toast {
+  animation: leal-scale-in .32s cubic-bezier(.22,.8,.3,1) both;
+}
+
+/* ---------- Skeleton de carregamento ---------- */
+.leal-skeleton {
+  position: relative;
+  overflow: hidden;
+  background: rgba(0, 0, 0, .06);
+  border-radius: 8px;
+  color: transparent !important;
+}
+.leal-skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 20%, rgba(255,255,255,.6) 45%, transparent 70%);
+  background-size: 220% 100%;
+  animation: leal-shimmer 1.6s ease-in-out infinite;
+}
+
+/* ---------- Acessibilidade ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
+  [data-anim] { opacity: 1 !important; transform: none !important; }
+}

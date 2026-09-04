@@ -1,0 +1,51 @@
+{
+  "name": "leal-ai-saas",
+  "version": "1.1.3",
+  "description": "Leal.ai — Inteligência jurídica trabalhista SaaS com arquitetura multi-nível e segurança avançada",
+  "main": "server/server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "server": "node server/server.js",
+    "server:dev": "nodemon server/server.js",
+    "start": "node server/server.js",
+    "db:migrate": "node seeds/demo_accounts.js --migrate-only",
+    "db:seed": "node seeds/demo_accounts.js",
+    "test": "vitest run"
+  },
+  "keywords": [
+    "saas",
+    "legaltech",
+    "juridico",
+    "trabalhista",
+    "rbac",
+    "jwt",
+    "express",
+    "postgresql"
+  ],
+  "author": "Leal.ai Team",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.2",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.1.5",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.11.3",
+    "uuid": "^9.0.0",
+    "zod": "^3.22.4",
+    "zustand": "^4.4.7"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.1.4",
+    "nodemon": "^3.0.2",
+    "supertest": "^6.3.3",
+    "vite": "^5.0.8",
+    "vitest": "^1.1.0"
+  }
+}

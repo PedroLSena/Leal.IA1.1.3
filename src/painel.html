@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Leal.ai — Painel pessoal do usuário com dados de cadastro, hierarquia, permissões e plano." />
+    <title>Leal.ai — Painel Pessoal</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="stylesheet" href="styles/cadastro.css" />
+    <link rel="stylesheet" href="styles/painel.css" />
+    <link rel="stylesheet" href="styles/animations.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="header-container">
+        <div class="header-left">
+          <a class="brand" href="index.html" aria-label="Voltar para a página inicial da Leal.ai">
+            <span class="brand-mark">L</span>leal<span>.ai</span>
+          </a>
+          <span class="header-badge"><i></i> Painel Pessoal</span>
+        </div>
+        <div class="header-actions">
+          <a class="btn-secondary" href="cadastro.html">← Voltar ao portal</a>
+          <button class="btn-secondary" id="btn-export">Exportar JSON</button>
+          <button class="btn-primary" id="btn-new">Novo cadastro</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-wrapper painel">
+      <section class="panel-hero" id="panel-hero">
+        <div class="panel-avatar leal-skeleton" id="p-avatar">--</div>
+        <div class="panel-hero-copy">
+          <p class="eyebrow"><i></i> <span id="p-status-line">carregando cadastro…</span></p>
+          <h1 id="p-name" class="leal-skeleton">Carregando…</h1>
+          <p id="p-subtitle" class="panel-subtitle">—</p>
+          <div class="panel-chips" id="p-chips"></div>
+        </div>
+      </section>
+
+      <section class="quick-stats panel-stats" id="p-stats"></section>
+
+      <section class="panel-grid">
+        <article class="wizard-card" data-anim="up">
+          <h2>Dados do cadastro</h2>
+          <dl class="data-list" id="p-data"></dl>
+        </article>
+
+        <aside class="preview-card" data-anim="up">
+          <h2>Permissões efetivas</h2>
+          <ul class="perm-list" id="p-perms"></ul>
+          <div class="panel-plan" id="p-plan"></div>
+        </aside>
+      </section>
+
+      <section class="wizard-card" data-anim="up">
+        <h2>Cadastros salvos no banco</h2>
+        <p class="panel-hint" id="p-db-hint">—</p>
+        <div class="table-wrap">
+          <table id="p-table">
+            <thead>
+              <tr><th>Nome</th><th>E-mail</th><th>Cargo</th><th>Organização</th><th>Criado em</th><th>Origem</th><th></th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="empty-state" id="p-empty" hidden>
+        <h2>Nenhum cadastro encontrado</h2>
+        <p>Crie uma conta no portal para que o painel pessoal seja preenchido com os seus dados.</p>
+        <a class="btn-primary" href="cadastro.html#novo">Fazer cadastro</a>
+      </section>
+    </main>
+
+    <script type="module" src="js/painel.js"></script>
+    <script type="module" src="js/animations.js"></script>
+  </body>
+</html>

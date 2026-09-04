@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Leal.ai — Ferramenta SaaS de Gestão de Contas Hierárquicas para Startups, Escritórios e Advogados." />
+    <title>Leal.ai — Gestão de Contas & Hierarquia Jurídica</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="stylesheet" href="styles/cadastro.css" />
+      <link rel="stylesheet" href="styles/animations.css" />
+  </head>
+  <body>
+    <!-- Top Header Navigation -->
+    <header class="app-header">
+      <div class="header-container">
+        <div class="header-left">
+          <a class="brand" href="index.html" title="Voltar à página inicial" aria-label="Voltar para a página inicial da Leal.ai">
+            <span class="brand-mark">L</span>leal<span>.ai</span>
+          </a>
+          <span class="header-badge"><i></i> Portal de Hierarquia & Contas SaaS</span>
+          
+          <nav class="header-nav-tabs" role="tablist" aria-label="Navegação da ferramenta">
+            <button class="tab-btn active" role="tab" aria-selected="true" data-tab="wizard" aria-controls="tab-wizard" id="tab-btn-wizard">
+              <span>➕</span> Novo Cadastro
+            </button>
+            <button class="tab-btn" role="tab" aria-selected="false" data-tab="accounts" aria-controls="tab-accounts" id="tab-btn-accounts">
+              <span>👥</span> Organograma & Contas
+            </button>
+            <button class="tab-btn" role="tab" aria-selected="false" data-tab="matrix" aria-controls="tab-matrix" id="tab-btn-matrix">
+              <span>📋</span> Matriz RBAC
+            </button>
+            <button class="tab-btn" role="tab" aria-selected="false" data-tab="simulator" aria-controls="tab-simulator" id="tab-btn-simulator">
+              <span>🔍</span> Simulador de Perfil
+            </button>
+            <button class="tab-btn" role="tab" aria-selected="false" data-tab="risk" aria-controls="tab-risk" id="tab-btn-risk">
+              <span>⚖️</span> Auditor de Riscos
+            </button>
+            <button class="tab-btn" role="tab" aria-selected="false" data-tab="dashboard" aria-controls="tab-dashboard" id="tab-btn-dashboard">
+              <span>📊</span> Dashboard
+            </button>
+            <button class="tab-btn" role="tab" aria-selected="false" data-tab="contracts" aria-controls="tab-contracts" id="tab-btn-contracts">
+              <span>📄</span> Contratos
+            </button>
+            <button class="tab-btn" role="tab" aria-selected="false" data-tab="journey" aria-controls="tab-journey" id="tab-btn-journey">
+              <span>🕒</span> Jornada
+            </button>
+            <button class="tab-btn" role="tab" aria-selected="false" data-tab="billing" aria-controls="tab-billing" id="tab-btn-billing">
+              <span>💳</span> Plano
+            </button>
+          </nav>
+        </div>
+
+        <div class="header-actions">
+          <a class="btn-secondary" href="painel.html">📊 Meu Painel</a>
+          <div id="user-session-badge"></div>
+          <button id="btn-open-login" class="btn-primary button-small" title="Acessar com credenciais JWT" aria-label="Fazer login na plataforma">
+            <span>🔒</span> Entrar
+          </button>
+          <button id="btn-open-signup" class="btn-secondary button-small" title="Criar uma nova conta" aria-label="Criar uma nova conta">
+            <span>✨</span> Criar conta
+          </button>
+          <button id="btn-export-json" class="btn-secondary" title="Exportar dados cadastrais" aria-label="Exportar base de contas em JSON">
+            <span>📥</span> Exportar JSON
+          </button>
+          <button id="btn-reset-demo" class="btn-secondary" title="Sincronizar com a API" aria-label="Sincronizar dados com o backend">
+            <span>🔄</span> Sincronizar API
+          </button>
+          <a class="btn-primary" href="index.html" aria-label="Voltar ao site institucional">
+            <span>←</span> Voltar ao Site
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="main-wrapper">
+      <!-- Section Header with Quick Stats -->
+      <div class="page-intro">
+        <div>
+          <h1>Gestão de Contas & Hierarquia Jurídica</h1>
+          <p>
+            Estruture o ecossistema da sua operação jurídica: configure permissões granulares, subordinação de cargos e isolamento de dados conforme a LGPD e o Provimento da OAB.
+          </p>
+        </div>
+        <div class="quick-stats">
+          <div class="stat-pill">
+            <span>Total de Usuários</span>
+            <strong id="stat-total-accounts">12</strong>
+          </div>
+          <div class="stat-pill">
+            <span>Organizações Ativas</span>
+            <strong id="stat-total-orgs">4</strong>
+          </div>
+          <div class="stat-pill">
+            <span>Advogados & OAB</span>
+            <strong id="stat-total-lawyers">6</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================================================================= -->
+      <!-- TAB 1: NOVO CADASTRO HIERÁRQUICO (WIZARD MULTI-PASSOS) -->
+      <!-- ========================================================================= -->
+      <section id="tab-wizard" class="tab-content active" role="tabpanel" aria-labelledby="tab-btn-wizard">
+        <div class="wizard-layout">
+          <!-- Wizard Main Form Column -->
+          <div class="wizard-card">
+            <!-- Steps Progress Bar -->
+            <div class="steps-nav" role="navigation" aria-label="Progresso do cadastro">
+              <button class="step-indicator active" data-step="1" type="button" aria-label="Passo 1: Tipo de Organização">
+                <span class="step-num">1</span>
+                <span>Tipo de Organização</span>
+              </button>
+              <button class="step-indicator" data-step="2" type="button" aria-label="Passo 2: Estrutura & Setor">
+                <span class="step-num">2</span>
+                <span>Estrutura & Setor</span>
+              </button>
+              <button class="step-indicator" data-step="3" type="button" aria-label="Passo 3: Dados do Titular">
+                <span class="step-num">3</span>
+                <span>Dados do Titular</span>
+              </button>
+              <button class="step-indicator" data-step="4" type="button" aria-label="Passo 4: Hierarquia & Permissões">
+                <span class="step-num">4</span>
+                <span>Hierarquia & Permissões</span>
+              </button>
+            </div>
+
+            <!-- Wizard Form -->
+            <form id="account-creation-form" novalidate>
+              <!-- PASSO 1: Seleção de Categoria Organizacional -->
+              <div class="wizard-step active" data-step="1">
+                <div class="step-header">
+                  <h2>Passo 1: Selecione o tipo de conta / organização</h2>
+                  <p>Escolha o segmento jurídico para carregar as hierarquias, regras trabalhistas e modelos de documentos pertinentes.</p>
+                </div>
+
+                <div class="category-grid" id="category-selection-grid">
+                  <!-- Injetado dinamicamente via JS -->
+                </div>
+              </div>
+
+              <!-- PASSO 2: Dados da Organização, Setor e Cargo -->
+              <div class="wizard-step" data-step="2">
+                <div class="step-header">
+                  <h2>Passo 2: Estrutura Organizacional & Enquadramento</h2>
+                  <p>Defina a razão social/nome da banca, o CNPJ ou CPF para conformidade e o setor de alocação.</p>
+                </div>
+
+                <div class="form-grid">
+                  <div class="form-group col-span-2">
+                    <label for="wizard-org-name">Nome da Empresa, Escritório ou Organização *</label>
+                    <input type="text" id="wizard-org-name" class="form-control" placeholder="Ex: TechFlow Software & Data Ltda ou Oliveira Advogados" required />
+                    <span class="form-help">Nome que constará nos cabeçalhos de contratos e relatórios trabalhistas.</span>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="wizard-cnpj-cpf">CNPJ ou CPF do Titular / Entidade *</label>
+                    <input type="text" id="wizard-cnpj-cpf" class="form-control" placeholder="00.000.000/0001-00 ou 000.000.000-00" required />
+                    <span class="form-help">Validado com algoritmo de dígitos verificadores (Receita Federal).</span>
+                  </div>
+
+                  <div class="form-group" id="group-oab">
+                    <label for="wizard-oab">Número da Inscrição na OAB (Se aplicável)</label>
+                    <input type="text" id="wizard-oab" class="form-control" placeholder="Ex: OAB/BA 29.845 ou OAB/SP 412.908" />
+                    <span class="form-help" id="oab-help-text">Obrigatório para emissão de pareceres e minutas com chancela legal.</span>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="wizard-sector">Setor / Departamento / Área *</label>
+                    <select id="wizard-sector" class="form-control" required>
+                      <!-- Populado dinamicamente -->
+                    </select>
+                    <span class="form-help">Determina o escopo de visibilidade dos alertas e relatórios.</span>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="wizard-role">Cargo / Função Específica *</label>
+                    <select id="wizard-role" class="form-control" required>
+                      <!-- Populado dinamicamente -->
+                    </select>
+                    <span class="form-help">Ao alterar o cargo, o nível de alçada (Tier) é ajustado automaticamente.</span>
+                  </div>
+
+                  <div class="form-group col-span-2">
+                    <label for="wizard-reports-to">Subordinação Direta (Reporta-se a):</label>
+                    <select id="wizard-reports-to" class="form-control">
+                      <!-- Populado dinamicamente -->
+                    </select>
+                    <span class="form-help">Estabelece o fluxo de aprovação de minutas e ciência de infrações de jornada.</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- PASSO 3: Dados de Identificação do Titular -->
+              <div class="wizard-step" data-step="3">
+                <div class="step-header">
+                  <h2>Passo 3: Dados do Titular da Conta</h2>
+                  <p>Informe os dados pessoais de quem fará o primeiro login ou gerenciará este perfil.</p>
+                </div>
+
+                <div class="form-grid">
+                  <div class="form-group col-span-2">
+                    <label for="wizard-full-name">Nome Completo do Titular *</label>
+                    <input type="text" id="wizard-full-name" class="form-control" placeholder="Ex: Dra. Maria Oliveira ou Marcos Leal" required />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="wizard-email">E-mail Corporativo *</label>
+                    <input type="email" id="wizard-email" class="form-control" placeholder="usuario@organizacao.com.br" required />
+                    <span class="form-help">Utilizado para autenticação JWT segura e notificações de risco.</span>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="wizard-password">Senha Provisória (Opcional - Gerada automaticamente se vazia)</label>
+                    <input type="password" id="wizard-password" class="form-control" placeholder="Mínimo 6 caracteres (ou deixe em branco)" />
+                    <span class="form-help">Hasheada com bcrypt (cost factor 12). Nunca armazenada em texto plano.</span>
+                  </div>
+
+                  <div class="form-group col-span-2">
+                    <label for="wizard-plan">Plano Contratado da Leal.ai</label>
+                    <select id="wizard-plan" class="form-control">
+                      <option value="Pro" selected>Leal.ai Pro — Startups & Médias Empresas (Recomendado)</option>
+                      <option value="Enterprise">Leal.ai Enterprise — Bancas Jurídicas & Grandes Operações</option>
+                      <option value="Starter">Leal.ai Starter — Advogados Solo & Pequenos Negócios</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- PASSO 4: Hierarquia e Permissões Granulares -->
+              <div class="wizard-step" data-step="4">
+                <div class="step-header">
+                  <h2>Passo 4: Nível Hierárquico & Permissões Granulares</h2>
+                  <p>Confirme a alçada institucional e customize as autorizações de acordo com a política de governança.</p>
+                </div>
+
+                <!-- Seletor de Tiers -->
+                <div style="margin-bottom: 24px;">
+                  <label style="font-weight: 700; font-size: 14px; margin-bottom: 12px; display: block;">
+                    Selecione o Nível de Alçada / Tier:
+                  </label>
+                  <div class="tier-selection-grid" id="tier-selection-grid">
+                    <!-- Tiers injetados via JS -->
+                  </div>
+                </div>
+
+                <!-- Matriz de Checkboxes Granulares -->
+                <div style="margin-bottom: 24px;">
+                  <label style="font-weight: 700; font-size: 14px; margin-bottom: 8px; display: block;">
+                    Privilégios e Módulos Ativos na Plataforma:
+                  </label>
+                  <p style="font-size: 12.5px; color: var(--muted); margin-bottom: 14px;">
+                    As caixas foram pré-selecionadas com base no Tier escolhido. Você pode marcar ou desmarcar recursos específicos conforme necessário.
+                  </p>
+                  <div class="perm-matrix-grid" id="perm-matrix-grid">
+                    <!-- Injetado via JS -->
+                  </div>
+                </div>
+
+                <!-- Termo de Governança LGPD -->
+                <div class="lgpd-box">
+                  <input type="checkbox" id="wizard-lgpd-consent" checked />
+                  <label for="wizard-lgpd-consent">
+                    <strong>Conformidade e Sigilo Profissional:</strong> Declaro que a atribuição deste nível hierárquico respeita o sigilo legal da OAB (art. 7º, II do EAOAB) e o princípio da necessidade da LGPD (Lei 13.709/18).
+                  </label>
+                </div>
+              </div>
+
+              <!-- Botões de Navegação do Wizard -->
+              <div class="wizard-actions">
+                <button type="button" class="btn-secondary" id="btn-prev-step" style="visibility: hidden;">
+                  ← Voltar
+                </button>
+                <button type="button" class="btn-primary" id="btn-next-step">
+                  Próximo Passo →
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Wizard Live Preview Sidebar -->
+          <aside class="wizard-sidebar" aria-label="Visualização em tempo real">
+            <div class="preview-badge-card">
+              <span class="preview-tag">Crachá de Acesso em Tempo Real</span>
+              
+              <div class="id-card">
+                <div class="id-card-top">
+                  <div class="id-avatar" id="preview-avatar">LA</div>
+                  <div class="id-meta">
+                    <strong id="preview-name">Nome do Usuário</strong>
+                    <span id="preview-role">Cargo a Definir</span>
+                  </div>
+                </div>
+
+                <div class="id-card-details">
+                  <div class="id-detail-row">
+                    <span>Organização:</span>
+                    <strong id="preview-org">Organização Jurídica</strong>
+                  </div>
+                  <div class="id-detail-row">
+                    <span>Setor:</span>
+                    <strong id="preview-sector">Setor Jurídico / RH</strong>
+                  </div>
+                  <div class="id-detail-row">
+                    <span>Nível de Alçada:</span>
+                    <span id="preview-tier-pill" class="hierarchy-level-pill badge-tier-1">TIER-1</span>
+                  </div>
+                  <div class="id-detail-row">
+                    <span>Plano:</span>
+                    <strong id="preview-plan">Pro</strong>
+                  </div>
+                </div>
+
+                <div class="id-card-footer">
+                  <span>Plataforma Leal.ai</span>
+                  <span style="font-size: 11px; font-weight: 700; color: var(--green-dark);">● Blindagem Ativa</span>
+                </div>
+              </div>
+
+              <!-- Lista de Recursos Liberados -->
+              <div class="preview-features">
+                <h4>Acesso Liberado a Módulos:</h4>
+                <ul id="preview-features-list">
+                  <!-- Atualizado via JS -->
+                </ul>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- TAB 2: ORGANOGRAMA & CONTAS CADASTRADAS -->
+      <!-- ========================================================================= -->
+      <section id="tab-accounts" class="tab-content" role="tabpanel" aria-labelledby="tab-btn-accounts">
+        <div class="accounts-header-toolbar">
+          <div class="filters-bar">
+            <div class="search-box">
+              <input type="text" id="filter-search" placeholder="🔍 Buscar por nome, e-mail, cargo, empresa ou setor..." aria-label="Filtrar contas cadastradas" />
+            </div>
+
+            <div class="filter-group">
+              <label for="filter-category" class="sr-only">Tipo</label>
+              <select id="filter-category" aria-label="Filtrar por tipo de organização">
+                <option value="all">Todas as Categorias</option>
+                <option value="empresa">Empresas / Startups</option>
+                <option value="escritorio">Escritórios de Advocacia</option>
+                <option value="advogado">Advogados Autônomos</option>
+                <option value="contabilidade">Contabilidade / BPO</option>
+                <option value="colaborador">Colaboradores & PJ</option>
+                <option value="leal_admin">Administração Leal.ai</option>
+              </select>
+
+              <label for="filter-tier" class="sr-only">Nível</label>
+              <select id="filter-tier" aria-label="Filtrar por nível hierárquico (Tier)">
+                <option value="all">Todos os Níveis (Tiers)</option>
+                <option value="tier-1">Tier 1 — Master / C-Level</option>
+                <option value="tier-2">Tier 2 — Gestão / Coordenação</option>
+                <option value="tier-3">Tier 3 — Operacional</option>
+                <option value="tier-4">Tier 4 — Estágio / Assistência</option>
+                <option value="tier-5">Tier 5 — Consulta & PJ</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="view-mode-toggle" role="group" aria-label="Alternar modo de visualização">
+            <button class="view-toggle-btn active" data-view="table" aria-pressed="true" aria-label="Visualização em tabela">
+              <span>📋</span> Tabela de Contas
+            </button>
+            <button class="view-toggle-btn" data-view="tree" aria-pressed="false" aria-label="Visualização em organograma de árvore">
+              <span>🌳</span> Organograma Hierárquico
+            </button>
+          </div>
+        </div>
+
+        <!-- Visualização 1: Tabela de Usuários -->
+        <div id="accounts-table-container" class="table-card">
+          <table class="accounts-table">
+            <thead>
+              <tr>
+                <th>Titular da Conta</th>
+                <th>Organização</th>
+                <th>Cargo / Função</th>
+                <th>Nível (Tier)</th>
+                <th>Reporta-se a</th>
+                <th>Status</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="accounts-table-body">
+              <!-- Renderizado dinamicamente via API -->
+            </tbody>
+          </table>
+          <div class="accounts-pagination" id="accounts-pagination"></div>
+          <label class="accounts-page-size" for="accounts-page-size">
+            Itens por página
+            <select id="accounts-page-size" class="filter-select">
+              <option value="8">8</option>
+              <option value="16">16</option>
+              <option value="32">32</option>
+            </select>
+          </label>
+        </div>
+
+        <!-- Visualização 2: Árvore Hierárquica / Organograma -->
+        <div id="accounts-tree-container" class="tree-card" style="display: none;">
+          <div class="tree-intro">
+            <h3>Organograma Corporativo & Linhas de Subordinação</h3>
+            <p>Visualização esquemática das camadas de governança da organização. Clique em qualquer cargo para inspecionar permissões e alçadas.</p>
+          </div>
+          <div id="org-tree-content">
+            <!-- Renderizado dinamicamente via JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- TAB 3: MATRIZ DE PERMISSÕES RBAC -->
+      <!-- ========================================================================= -->
+      <section id="tab-matrix" class="tab-content" role="tabpanel" aria-labelledby="tab-btn-matrix">
+        <div class="matrix-card">
+          <div class="matrix-intro">
+            <h2>Matriz Geral de Permissões (RBAC - Role-Based Access Control)</h2>
+            <p>
+              Compare os privilégios nativos concedidos a cada nível hierárquico na plataforma Leal.ai para assegurar conformidade e blindagem operacional.
+            </p>
+          </div>
+
+          <div class="matrix-table-wrapper" id="matrix-table-container">
+            <!-- Tabela RBAC renderizada dinamicamente -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- TAB 4: SIMULADOR DE PERFIL DE USUÁRIO -->
+      <!-- ========================================================================= -->
+      <section id="tab-simulator" class="tab-content" role="tabpanel" aria-labelledby="tab-btn-simulator">
+        <div class="simulator-layout">
+          <!-- Coluna 1: Lista de Perfis para Simulação -->
+          <div class="sim-picker-card">
+            <h3 style="font-family:'Plus Jakarta Sans'; font-size:16px; margin-bottom: 6px;">Selecione um Perfil:</h3>
+            <p style="font-size: 12.5px; color: var(--muted); margin-bottom: 16px;">
+              Clique em qualquer usuário para verificar sua interface e restrições de segurança na Leal.ai.
+            </p>
+            <div id="sim-users-list">
+              <!-- Lista de usuários para simular -->
+            </div>
+          </div>
+
+          <!-- Coluna 2: Tela Simulada com as Permissões Reais -->
+          <div class="sim-screen-card" id="sim-screen-container">
+            <!-- Tela de simulação renderizada pelo JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- TAB 5: AUDITOR DE RISCOS TRABALHISTAS -->
+      <!-- ========================================================================= -->
+      <section id="tab-risk" class="tab-content" role="tabpanel" aria-labelledby="tab-btn-risk">
+        <div class="risk-header">
+          <div>
+            <h2>Auditor de Riscos Trabalhistas</h2>
+            <p>
+              Responda o questionário de conformidade e receba um score de risco explicável, com achados e recomendações baseados na CLT e na legislação trabalhista.
+            </p>
+          </div>
+        </div>
+        <div id="risk-panel-content"></div>
+        <div class="risk-history-card">
+          <h3>Histórico de Auditorias</h3>
+          <div id="risk-history-list">
+            <p class="risk-empty">Carregando histórico...</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- TAB 6: DASHBOARD CONSOLIDADO -->
+      <!-- ========================================================================= -->
+      <section id="tab-dashboard" class="tab-content" role="tabpanel" aria-labelledby="tab-btn-dashboard">
+        <div class="risk-header">
+          <div>
+            <h2>Dashboard Consolidado</h2>
+            <p>Visão unificada dos módulos de inteligência: risco trabalhista, contratos e jornada.</p>
+          </div>
+        </div>
+        <div id="dashboard-content"></div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- TAB 7: CONTRATOS -->
+      <!-- ========================================================================= -->
+      <section id="tab-contracts" class="tab-content" role="tabpanel" aria-labelledby="tab-btn-contracts">
+        <div class="risk-header">
+          <div>
+            <h2>Gerador & Gestão de Contratos</h2>
+            <p>Gere minutas CLT com cláusulas protetivas, visualize, altere status e exclua contratos.</p>
+          </div>
+        </div>
+        <div id="contracts-content"></div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- TAB 8: JORNADA -->
+      <!-- ========================================================================= -->
+      <section id="tab-journey" class="tab-content" role="tabpanel" aria-labelledby="tab-btn-journey">
+        <div class="risk-header">
+          <div>
+            <h2>Monitor de Jornada e Ponto</h2>
+            <p>Analise registros de ponto, persista espelhos e acompanhe violações de interjornada, horas extras e intervalos.</p>
+          </div>
+        </div>
+        <div id="journey-content"></div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- TAB 9: BILLING / PLANO -->
+      <!-- ========================================================================= -->
+      <section id="tab-billing" class="tab-content" role="tabpanel" aria-labelledby="tab-btn-billing">
+        <div class="risk-header">
+          <div>
+            <h2>Plano e Assinatura</h2>
+            <p>Gerencie o plano da sua organização, assentos e visualize faturas.</p>
+          </div>
+        </div>
+        <div id="billing-content"></div>
+      </section>
+    </main>
+
+    <!-- Modal de Detalhes da Conta -->
+    <div class="modal-overlay" id="account-details-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="account-modal-title">
+      <div class="modal-dialog">
+        <div class="modal-header">
+          <h3 id="account-modal-title">Ficha Cadastral e Nível Hierárquico</h3>
+          <button class="modal-close-btn" id="btn-close-modal" aria-label="Fechar janela">&times;</button>
+        </div>
+        <div class="modal-body" id="modal-account-content">
+          <!-- Conteúdo dinâmico da conta -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal de Autenticação JWT (Login) -->
+    <div class="modal-overlay" id="login-modal" role="dialog" aria-modal="true" aria-labelledby="login-modal-title">
+      <div class="modal-dialog modal-dialog-sm">
+        <div class="modal-header">
+          <h3 id="login-modal-title">Entrar na Plataforma Leal.ai</h3>
+          <button class="modal-close-btn" id="btn-close-login" aria-label="Fechar login">&times;</button>
+        </div>
+        <form id="login-form">
+          <div class="modal-body">
+            <p style="font-size: 13px; color: var(--muted); margin-bottom: 18px;">
+              Autentique-se para gerenciar permissões e obter seu token de sessão com validade de 15 minutos.
+            </p>
+            <div class="form-group" style="margin-bottom: 16px;">
+              <label for="login-email" style="font-size: 13px; font-weight: 600; display: block; margin-bottom: 6px;">E-mail Corporativo</label>
+              <input type="email" id="login-email" class="form-control" placeholder="usuario@oliveiramedeiros.adv.br" required style="width: 100%; padding: 10px 12px; border: 1.5px solid var(--line); border-radius: 6px;" />
+            </div>
+            <div class="form-group" style="margin-bottom: 12px;">
+              <label for="login-password" style="font-size: 13px; font-weight: 600; display: block; margin-bottom: 6px;">Senha</label>
+              <input type="password" id="login-password" class="form-control" placeholder="••••••••" required style="width: 100%; padding: 10px 12px; border: 1.5px solid var(--line); border-radius: 6px;" />
+            </div>
+            <p style="font-size: 11.5px; color: var(--muted);">
+              Ainda não possui acesso? <button type="button" class="auth-text-button" id="btn-login-to-signup">Crie sua conta</button>.
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" id="btn-login-submit" class="btn-primary" style="width: 100%;">
+              Entrar na Plataforma <span>🔒</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal de criação de conta (self-onboarding) -->
+    <div class="modal-overlay" id="signup-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="signup-modal-title">
+      <div class="modal-dialog modal-dialog-sm">
+        <div class="modal-header">
+          <h3 id="signup-modal-title">Crie sua conta Leal.ai</h3>
+          <button class="modal-close-btn" id="btn-close-signup" aria-label="Fechar criação de conta">&times;</button>
+        </div>
+        <form id="signup-form">
+          <div class="modal-body signup-form-grid">
+            <p class="signup-intro">Comece com a conta administradora da sua organização. Enviaremos a confirmação para o seu e-mail.</p>
+            <div class="form-group"><label for="signup-name">Nome completo</label><input id="signup-name" class="form-control" autocomplete="name" minlength="2" required /></div>
+            <div class="form-group"><label for="signup-email">E-mail corporativo</label><input id="signup-email" type="email" class="form-control" autocomplete="email" required /></div>
+            <div class="form-group"><label for="signup-organization">Organização</label><input id="signup-organization" class="form-control" autocomplete="organization" minlength="2" required /></div>
+            <div class="form-group"><label for="signup-document">CNPJ ou CPF</label><input id="signup-document" class="form-control" inputmode="numeric" placeholder="00.000.000/0000-00" required /></div>
+            <div class="form-group"><label for="signup-category">Perfil da organização</label><select id="signup-category" class="form-control" required><option value="empresa">Empresa</option><option value="escritorio">Escritório de advocacia</option><option value="advogado">Advogado autônomo</option><option value="contabilidade">Contabilidade</option></select></div>
+            <div class="form-group"><label for="signup-sector">Setor</label><input id="signup-sector" class="form-control" placeholder="Jurídico, RH, Diretoria..." required /></div>
+            <div class="form-group"><label for="signup-oab">OAB (opcional)</label><input id="signup-oab" class="form-control" placeholder="OAB/UF 000000" /></div>
+            <div class="form-group"><label for="signup-password">Senha</label><input id="signup-password" type="password" class="form-control" autocomplete="new-password" minlength="8" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}" title="Use ao menos 8 caracteres, com letra maiúscula, minúscula e número." required /></div>
+            <div class="form-group"><label for="signup-password-confirm">Confirmar senha</label><input id="signup-password-confirm" type="password" class="form-control" autocomplete="new-password" required /></div>
+          </div>
+          <div class="modal-footer signup-footer">
+            <button type="button" class="auth-text-button" id="btn-signup-to-login">Já tenho uma conta</button>
+            <button type="submit" id="btn-signup-submit" class="btn-primary">Criar minha conta</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal para Cadastro de Novo Setor -->
+    <div class="modal-overlay" id="new-sector-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="new-sector-title">
+      <div class="modal-dialog modal-dialog-sm">
+        <div class="modal-header">
+          <h3 id="new-sector-title">Cadastrar Novo Setor / Departamento</h3>
+          <button class="modal-close-btn" id="btn-close-new-sector" aria-label="Fechar cadastro de setor">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group" style="margin-bottom: 16px;">
+            <label for="new-sector-input" style="font-size: 13px; font-weight: 600; display: block; margin-bottom: 6px;">Nome do Setor / Departamento</label>
+            <input type="text" id="new-sector-input" class="form-control" placeholder="Ex: Contencioso Trabalhista, RH, Compliance..." maxlength="80" />
+          </div>
+        </div>
+        <div class="modal-footer" style="display: flex; justify-content: flex-end; gap: 12px; padding: 16px 24px; border-top: 1px solid var(--line-light);">
+          <button class="btn-secondary" id="btn-cancel-new-sector">Cancelar</button>
+          <button class="btn-primary" id="btn-confirm-new-sector">Salvar Setor</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- Entry Point Modular Frontend -->
+    <script type="module" src="js/app.js"></script>
+      <script type="module" src="js/animations.js"></script>
+  </body>
+</html>

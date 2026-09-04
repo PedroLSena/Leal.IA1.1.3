@@ -1,0 +1,57 @@
+:root {
+  /* Cores Principais da Identidade Visual Leal.ai */
+  --ink: #092e4a;
+  --ink-light: #164264;
+  --cream: #f7f4ed;
+  --paper: #fffefa;
+  --green: #86ad8c;
+  --green-dark: #2d5a37;
+  --green-light: #e8f3ea;
+  --muted: #6f8090;
+  --muted-light: #94a3b8;
+  --line: #ccd4d8;
+  --line-light: #e2e8f0;
+  --cream-card: #f3f0e6;
+
+  /* Estados e Alertas */
+  --danger: #dc2626;
+  --danger-light: #fee2e2;
+  --danger-bg: #fee2e2;
+  --warning: #d97706;
+  --warning-light: #fef3c7;
+  --warning-bg: #fef3c7;
+  --success: #16a34a;
+  --success-light: #dcfce7;
+  --success-bg: #dcfce7;
+  --info: #2563eb;
+  --info-light: #dbeafe;
+
+  /* Tiers Hierárquicos */
+  --tier-1-bg: #e0e7ff;
+  --tier-1-color: #3730a3;
+  --tier-2-bg: #dcfce7;
+  --tier-2-color: #166534;
+  --tier-3-bg: #fef3c7;
+  --tier-3-color: #92400e;
+  --tier-4-bg: #f3e8ff;
+  --tier-4-color: #6b21a8;
+  --tier-5-bg: #f1f5f9;
+  --tier-5-color: #475569;
+
+  /* Sombras e Elevações */
+  --shadow-sm: 0 1px 3px rgba(9, 46, 74, 0.06);
+  --shadow-md: 0 4px 14px rgba(9, 46, 74, 0.08);
+  --shadow-lg: 0 12px 28px rgba(9, 46, 74, 0.12);
+
+  /* Border Radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+
+  /* Fontes */
+  --font-sans: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* Acessibilidade & Focus */
+  --focus-ring: 0 0 0 3px rgba(134, 173, 140, 0.6);
+}
