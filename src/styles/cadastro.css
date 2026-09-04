@@ -298,6 +298,16 @@ body {
   background: #fff;
 }
 
+/* Responsividade do header da ferramenta */
+@media (max-width: 900px) {
+  .header-container { height: auto; padding: 12px 0; flex-wrap: wrap; align-items: center; }
+  .header-left { width: 100%; display: flex; align-items: center; gap: 12px; }
+  .header-badge { display: none; }
+  .header-nav-tabs { display: flex; overflow-x: auto; gap: 6px; padding-top: 8px; width: 100%; }
+  .header-actions { width: 100%; justify-content: flex-end; gap: 8px; margin-top: 8px; }
+  .brand { font-size: 20px; }
+}
+
 .id-card-top {
   display: flex;
   align-items: center;

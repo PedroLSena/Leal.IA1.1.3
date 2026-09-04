@@ -16,7 +16,11 @@
     <main>
       <nav class="nav container" aria-label="Navegação principal">
         <a class="brand" href="#inicio" aria-label="Leal.ai, início"><span class="brand-mark">L</span>leal<span>.ai</span></a>
-        <div class="nav-links">
+        <button class="nav-toggle" aria-expanded="false" aria-controls="primary-navigation">
+          <span class="bar" aria-hidden="true"></span>
+          <span class="sr-only">Abrir menu</span>
+        </button>
+        <div id="primary-navigation" class="nav-links">
           <a href="#solucao">Solução</a>
           <a href="#como-funciona">Como funciona</a>
           <a href="#hierarquia">Hierarquias & Perfis</a>
@@ -103,6 +107,7 @@
     <script type="module">
       document.getElementById('year').textContent = new Date().getFullYear();
     </script>
+      <script type="module" src="js/nav.js"></script>
       <script type="module" src="js/animations.js"></script>
   </body>
 </html>
