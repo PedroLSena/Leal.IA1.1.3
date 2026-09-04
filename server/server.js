@@ -114,6 +114,10 @@ if (!isProd) {
   app.use(express.static(srcPath));
 }
 
+const landingFile = isProd
+  ? path.resolve(distPath, 'index.html')
+  : path.resolve(srcPath, 'index.html');
+
 // Fallback para SPA / Multi-page navigation
 const landingFile = isProd
   ? path.resolve(distPath, 'index.html')
