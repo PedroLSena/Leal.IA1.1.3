@@ -118,10 +118,6 @@ const landingFile = isProd
   ? path.resolve(distPath, 'index.html')
   : path.resolve(srcPath, 'index.html');
 
-// Fallback para SPA / Multi-page navigation
-const landingFile = isProd
-  ? path.resolve(distPath, 'index.html')
-  : path.resolve(srcPath, 'index.html');
 const cadastroFile = isProd
   ? path.resolve(distPath, 'cadastro.html')
   : path.resolve(srcPath, 'cadastro.html');
